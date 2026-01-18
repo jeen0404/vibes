@@ -1,8 +1,10 @@
 export interface Spark {
     id: string;
+    userId: string;
     mediaUrl: string;
     type: 'image' | 'video';
-    expiresAt: string;
+    createdAt: Date;
+    expiresAt: Date;
     isSeen: boolean;
 }
 

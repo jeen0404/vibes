@@ -5,6 +5,7 @@ import { Upload, Camera, Music, Image as ImageIcon, X, Send, Wand2 } from "lucid
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import clsx from "clsx";
 
@@ -48,15 +49,51 @@ export default function CreatePage() {
 
         setStep('uploading');
 
-        // TODO: Actual Supabase Upload Logic
-        // const { data, error } = await supabase.storage.from('waves').upload(...)
+        try {
+            const supabase = createClient();
 
-        console.log("Transmitting:", { file: selectedFile.name, filter: selectedFilter.id, caption });
+            // 1. Get User
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                throw new Error("You must be logged in to transmit.");
+            }
 
-        setTimeout(() => {
+            // 2. Upload File
+            const fileExt = selectedFile.name.split('.').pop();
+            const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+            const { error: uploadError } = await supabase.storage
+                .from('waves')
+                .upload(fileName, selectedFile);
+
+            if (uploadError) throw uploadError;
+
+            // 3. Get Public URL
+            const { data: { publicUrl } } = supabase.storage
+                .from('waves')
+                .getPublicUrl(fileName);
+
+            // 4. Insert into Database
+            const { error: dbError } = await supabase
+                .from('waves')
+                .insert({
+                    user_id: user.id,
+                    caption: caption,
+                    media_url: publicUrl,
+                    media_type: selectedFile.type.startsWith('video') ? 'video' : 'image',
+                    vibe_rating: 0
+                });
+
+            if (dbError) throw dbError;
+
+            // Success
             alert("Frequency transmitted to the Vibe network! 🌊");
             router.push("/waves");
-        }, 2000);
+
+        } catch (error: any) {
+            console.error(error);
+            alert(`Transmission failed: ${error.message}`);
+            setStep('edit'); // Go back to edit
+        }
     };
 
     return (

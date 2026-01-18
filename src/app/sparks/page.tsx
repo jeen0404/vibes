@@ -16,8 +16,8 @@ const MOCK_USER: User = {
     followingCount: 342,
     hasActiveSpark: true,
     sparks: [
-        { id: "s1", mediaUrl: "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", type: "image", expiresAt: "", isSeen: false },
-        { id: "s2", mediaUrl: "https://images.pexels.com/photos/1043323/pexels-photo-1043323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", type: "image", expiresAt: "", isSeen: false }
+        { id: "s1", userId: "u1", mediaUrl: "https://images.pexels.com/photos/1389429/pexels-photo-1389429.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", type: "image", createdAt: new Date(), expiresAt: new Date(Date.now() + 86400000), isSeen: false },
+        { id: "s2", userId: "u1", mediaUrl: "https://images.pexels.com/photos/1043323/pexels-photo-1043323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2", type: "image", createdAt: new Date(), expiresAt: new Date(Date.now() + 86400000), isSeen: false }
     ]
 };
 

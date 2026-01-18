@@ -51,3 +51,11 @@ body {
 .font-display {
   font-family: var(--font-great-vibes), cursive;
 }
+@layer utilities {
+  .filter-none { filter: none; }
+  .filter-cyber { filter: contrast(1.2) brightness(1.1) hue-rotate(180deg) saturate(1.5); }
+  .filter-noir { filter: grayscale(100%) contrast(1.2) brightness(0.8); }
+  .filter-vapor { filter: brightness(1.1) contrast(0.9) saturate(1.8) hue-rotate(-20deg); }
+  .filter-acid { filter: contrast(1.5) hue-rotate(45deg) saturate(2); }
+  .filter-matrix { filter: sepia(100%) hue-rotate(50deg) saturate(3) contrast(1.2); }
+}

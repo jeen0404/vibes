@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   title: "Vibes | The Frequency Ecosystem",
   description: "Authentic, high-frequency social connection. Beyond the curated loop.",
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Vibes",
+  },
 };
 
 export const viewport: Viewport = {
